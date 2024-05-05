@@ -386,6 +386,17 @@ namespace ed {
 								if (vbData->Instanced)
 									glDrawArraysInstanced(vbData->Topology, 0, vertCount, vbData->InstanceCount);
 								else
+	
+								if(vbData->IndexBuffer) {
+									ed::BufferObject* ibobj = (ed::BufferObject*)vbData->IndexBuffer;
+									auto fmt = m_objects->ParseBufferFormat(ibobj->ViewFormat);
+
+									// Todo: There might be use cases where index buffers are a short or byte. The current view format does not allow expressing that, however
+									if(fmt.size() == 1 && fmt[0] == ShaderVariable::ValueType::Integer1) {
+										glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibobj->ID);
+										glDrawElements(vbData->Topology, ibobj->Size / sizeof(uint32_t), GL_UNSIGNED_INT, nullptr);
+									}
+								} else
 									glDrawArrays(vbData->Topology, 0, vertCount);
 							}
 						}

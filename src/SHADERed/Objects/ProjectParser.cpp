@@ -1332,7 +1332,11 @@ namespace ed {
 
 				pipe::VertexBuffer* tData = reinterpret_cast<pipe::VertexBuffer*>(item->Data);
 
-				itemNode.append_child("buffer").text().set(m_objects->GetByBufferID(((ed::BufferObject*)tData->Buffer)->ID)->Name.c_str());
+				if(tData->Buffer)
+					itemNode.append_child("buffer").text().set(m_objects->GetBufferNameByID(((ed::BufferObject*)tData->Buffer)->ID).c_str());
+				if(tData->IndexBuffer)
+					itemNode.append_child("indexbuffer").text().set(m_objects->GetBufferNameByID(((ed::BufferObject*)tData->IndexBuffer)->ID).c_str());
+				
 				if (tData->Scale.x != 1.0f)
 					itemNode.append_child("scaleX").text().set(tData->Scale.x);
 				if (tData->Scale.y != 1.0f)
@@ -1582,6 +1586,7 @@ namespace ed {
 				pipe::VertexBuffer* vbData = (pipe::VertexBuffer*)itemData;
 
 				vbData->Buffer = 0;
+				vbData->IndexBuffer = 0;
 				vbData->Scale = glm::vec3(1, 1, 1);
 				vbData->Position = glm::vec3(0, 0, 0);
 				vbData->Rotation = glm::vec3(0, 0, 0);

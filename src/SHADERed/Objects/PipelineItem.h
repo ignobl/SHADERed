@@ -199,6 +199,7 @@ namespace ed {
 				Scale = glm::vec3(1, 1, 1);
 				Topology = GL_TRIANGLES;
 				Buffer = 0;
+				IndexBuffer = 0;
 				VAO = 0;
 				Instanced = false;
 				InstanceCount = 0;
@@ -206,6 +207,7 @@ namespace ed {
 			}
 
 			void* Buffer;
+			void* IndexBuffer;
 			GLuint VAO;
 
 			unsigned int Topology;
